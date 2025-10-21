@@ -37,6 +37,28 @@ Copies a selected block from one sheet to all other sheets in the drawing while 
 - The current sheet (where the block is selected) is not duplicated to itself
 - Returns to the original sheet after completing all copies
 
+### Stack
+Creates vertical copies of a selected line based on a floor-to-floor height, ideal for quickly generating multi-story building elements.
+
+**Usage:**
+1. Type `Stack` at the AutoCAD command prompt
+2. Select a LINE object when prompted
+3. Enter the floor-to-floor height (vertical spacing between copies)
+4. Enter the number of copies to create
+5. The script will create copies of the line, each offset vertically on the Y axis by the specified height
+
+**Example:**
+- Original line at Y=0
+- Floor height = 10
+- Number of copies = 3
+- Result: Creates lines at Y=10, Y=20, and Y=30
+
+**Notes:**
+- Only works with LINE objects
+- All copies maintain the same layer as the original line
+- The X and Z coordinates remain unchanged
+- The original line is not modified
+
 ## Installation
 
 1. Download the desired .lsp file(s)
