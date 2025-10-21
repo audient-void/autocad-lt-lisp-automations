@@ -38,14 +38,14 @@ Copies a selected block from one sheet to all other sheets in the drawing while 
 - Returns to the original sheet after completing all copies
 
 ### Stack
-Creates vertical copies of a selected line based on a floor-to-floor height, ideal for quickly generating multi-story building elements.
+Creates vertical copies of a selected line or polyline based on a floor-to-floor height, ideal for quickly generating multi-story building elements.
 
 **Usage:**
 1. Type `Stack` at the AutoCAD command prompt
-2. Select a LINE object when prompted
+2. Select a LINE or LWPOLYLINE object when prompted
 3. Enter the floor-to-floor height (vertical spacing between copies)
 4. Enter the number of copies to create
-5. The script will create copies of the line, each offset vertically on the Y axis by the specified height
+5. The script will create copies of the object, each offset vertically on the Y axis by the specified height
 
 **Example:**
 - Original line at Y=0
@@ -54,10 +54,10 @@ Creates vertical copies of a selected line based on a floor-to-floor height, ide
 - Result: Creates lines at Y=10, Y=20, and Y=30
 
 **Notes:**
-- Only works with LINE objects
-- All copies maintain the same layer as the original line
+- Works with both LINE and LWPOLYLINE (lightweight polyline) objects
+- All copies maintain the same layer and properties as the original
 - The X and Z coordinates remain unchanged
-- The original line is not modified
+- The original object is not modified
 
 ## Installation
 
