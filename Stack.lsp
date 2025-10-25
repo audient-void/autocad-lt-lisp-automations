@@ -1,7 +1,11 @@
 ;; Helper function to offset a point's Y coordinate
-(defun offset-y-coord (pt yoffset)
+;; Handles both 2D (X Y) and 3D (X Y Z) points
+(defun offset-y-coord (pt yoffset / z)
   (if pt
-    (list (car pt) (+ (cadr pt) yoffset) (caddr pt))
+    (progn
+      (setq z (if (>= (length pt) 3) (caddr pt) 0))  ; Get Z or default to 0
+      (list (car pt) (+ (cadr pt) yoffset) z)
+    )
     nil
   )
 )
@@ -12,8 +16,9 @@
   (foreach item ent
     (cond
       ;; For coordinates (codes 10, 11, etc.) - offset Y value
+      ;; Handle both 2D points (LWPOLYLINE) and 3D points (LINE)
       ((and (= (type (cdr item)) 'LIST)
-            (= (length (cdr item)) 3)
+            (or (= (length (cdr item)) 2) (= (length (cdr item)) 3))
             (or (= (car item) 10) (= (car item) 11)))
        (setq newpt (offset-y-coord (cdr item) yoffset))
        (setq newent (append newent (list (cons (car item) newpt))))

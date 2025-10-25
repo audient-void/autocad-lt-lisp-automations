@@ -1,9 +1,13 @@
 (defun c:CopyBlockAcrossSheets ( / blk blkent blkname inspt xscale yscale zscale rot
-                                  layoutdict layoutlist layoutname currentlayout
-                                  copiedcount rotdeg)
+                                  layoutlist layoutname currentlayout
+                                  copiedcount rotdeg ss)
 
-  ;; Prompt user to select a block
-  (setq blk (car (entsel "\nSelect block to copy: ")))
+  ;; Check for pre-selected block first, otherwise prompt user
+  (setq ss (ssget "_I" '((0 . "INSERT"))))  ; Get implied selection (pre-selected)
+  (if ss
+    (setq blk (ssname ss 0))  ; Use first entity from pre-selection
+    (setq blk (car (entsel "\nSelect block to copy: ")))  ; Prompt for selection
+  )
 
   (if (and blk (= (cdr (assoc 0 (entget blk))) "INSERT"))
     (progn
@@ -28,21 +32,10 @@
       ;; Initialize counter
       (setq copiedcount 0)
 
-      ;; Get layouts dictionary
-      (setq layoutdict (namedobjdict))
-      (setq layoutdict (dictsearch layoutdict "ACAD_LAYOUT"))
-
-      ;; Build list of layout names
+      ;; Get list of all layouts using VLA functions
       (setq layoutlist '())
-      (if layoutdict
-        (progn
-          (setq layoutdict (cdr (assoc -1 layoutdict)))
-          (while (setq layoutname (dichnext layoutdict (null layoutlist)))
-            (if (setq layoutname (cdr (assoc 3 (dictsearch layoutdict (cdr (assoc 2 layoutname))))))
-              (setq layoutlist (cons layoutname layoutlist))
-            )
-          )
-        )
+      (vlax-for layout (vla-get-layouts (vla-get-activedocument (vlax-get-acad-object)))
+        (setq layoutlist (cons (vla-get-name layout) layoutlist))
       )
 
       ;; Process each layout

@@ -25,13 +25,15 @@ Replaces selected text objects completely with sequential numbers.
 Copies a selected block from one sheet to all other sheets in the drawing while maintaining its X,Y position and properties (scale, rotation).
 
 **Usage:**
-1. Type `CopyBlockAcrossSheets` at the AutoCAD command prompt
-2. Select a block reference when prompted
-3. The block will be automatically copied to all other layout sheets (excluding Model space and the current sheet)
-4. Each copy maintains the exact X,Y coordinates, scale factors, and rotation angle of the original block
-5. The command will report how many copies were created
+1. Select a block reference (optional - you can also select after running the command)
+2. Type `CopyBlockAcrossSheets` at the AutoCAD command prompt
+3. If you didn't pre-select a block, select one when prompted
+4. The block will be automatically copied to all other layout sheets (excluding Model space and the current sheet)
+5. Each copy maintains the exact X,Y coordinates, scale factors, and rotation angle of the original block
+6. The command will report how many copies were created
 
 **Notes:**
+- Supports pre-selection: select the block first, then run the command
 - The original block remains on its current sheet
 - Model space is always excluded from the copy operation
 - The current sheet (where the block is selected) is not duplicated to itself
